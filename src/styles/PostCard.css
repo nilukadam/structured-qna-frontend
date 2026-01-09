@@ -1,0 +1,293 @@
+/* FILE: src/styles/PostCard.css
+   Production-ready Post / Answer card styles
+   - Modern, responsive, accessible
+   - Uses Bootstrap 5 CSS variables for dark/light compatibility
+   - Minimal specificity to play nicely with Bootstrap utility classes
+*/
+
+/* ---------- Card wrapper ---------- */
+.post-card {
+  background: var(--bs-card-bg);
+  color: var(--bs-body-color);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  overflow: hidden;
+}
+
+/* subtle lift on hover/focus (keyboard accessible) */
+.post-card:hover,
+.post-card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.08);
+}
+
+/* spacing inside card (if you rely on Bootstrap padding, these are conservative) */
+.post-card .card-body,
+.post-card > .post-body {
+  padding: 0.9rem 1rem;
+}
+
+/* ---------- Header (author info, follow button) ---------- */
+.post-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--bs-border-color);
+  background: linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.00));
+}
+
+/* left group: avatar + name */
+.post-header .left {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+}
+
+/* avatar image */
+.post-header img,
+.post-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-card-bg);
+  flex: 0 0 44px;
+}
+
+/* author block */
+.post-header .author {
+  min-width: 0; /* allow truncation */
+}
+.post-header .author h6 {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--bs-body-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.post-header .author .meta {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--bs-muted, #6c757d);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* follow button (keeps bootstrap styles but with slight tightening) */
+.post-header .follow-btn {
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+/* ---------- Body / content ---------- */
+.post-body {
+  padding: 0.85rem 1rem;
+  font-family: inherit;
+}
+
+/* question title */
+.post-body h5 {
+  margin: 0 0 0.45rem 0;
+  font-size: 1.04rem;
+  line-height: 1.2;
+  color: var(--bs-body-color);
+}
+
+/* post content — collapsed vs expanded */
+.post-content {
+  color: var(--bs-body-color);
+  line-height: 1.6;
+  margin: 0 0 0.5rem 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* collapsed snippet (approx 3 lines) - cross-browser safe */
+.post-content.collapsed {
+  max-height: 4.8rem; /* adjust for line-height to show ~3 lines */
+  overflow: hidden;
+  position: relative;
+}
+
+/* subtle gradient fade at bottom of collapsed content */
+.post-content.collapsed::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 2.2rem;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0), var(--bs-card-bg));
+  /* For dark mode, ensure subtle fade: */
+  background: linear-gradient(180deg, rgba(0,0,0,0), var(--bs-card-bg));
+}
+
+/* Read-more button */
+.post-readmore {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--bs-danger, #d62839);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* image/media inside body */
+.post-body .img-fluid {
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* ---------- Footer: actions (votes, comments, share) ---------- */
+.post-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0.6rem 1rem;
+  border-top: 1px solid var(--bs-border-color);
+  background: transparent;
+}
+
+/* left side actions */
+.post-footer .actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* action button baseline */
+.post-footer .actions .btn,
+.post-footer .actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--bs-body-color);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, transform 120ms ease;
+}
+
+/* hover / focus for action buttons */
+.post-footer .actions .btn:hover,
+.post-footer .actions .btn:focus {
+  background: rgba(0,0,0,0.04);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* upvote / downvote visual states */
+.btn-vote-up.active {
+  background: var(--bs-success, #198754) !important;
+  color: #fff !important;
+  border-color: var(--bs-success, #198754) !important;
+}
+.btn-vote-down.active {
+  background: var(--bs-danger, #dc3545) !important;
+  color: #fff !important;
+  border-color: var(--bs-danger, #dc3545) !important;
+}
+
+/* Badge for post type (question/post) */
+.post-type-badge {
+  font-size: 0.8rem;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(214,40,57,0.08);
+  color: var(--bs-danger, #d62839);
+  font-weight: 600;
+}
+
+/* ---------- Comments area (expanded) ---------- */
+.post-comments {
+  padding: 0.75rem 1rem 1rem 1rem;
+  border-top: 1px solid var(--bs-border-color);
+  background: transparent;
+}
+
+.post-comments .comment-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.post-comments .comment-row img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--bs-border-color);
+}
+.post-comments .comment-body {
+  flex: 1;
+}
+.post-comments .comment-body .meta {
+  font-size: 0.78rem;
+  color: var(--bs-muted, #6c757d);
+  margin-bottom: 4px;
+}
+.post-comments .comment-body .text {
+  font-size: 0.92rem;
+  color: var(--bs-body-color);
+}
+
+/* delete button small */
+.post-comments .btn-delete {
+  background: transparent;
+  border: none;
+  color: var(--bs-danger, #dc3545);
+}
+
+/* ---------- Accessibility / focus visuals ---------- */
+/* clear visible focus ring for keyboard users */
+.post-card :is(button, [role="button"], a):focus {
+  outline: 3px solid rgba(13,110,253,0.12);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* make action button hit area slightly larger on touch devices */
+@media (hover: none) {
+  .post-footer .actions .btn,
+  .post-comments .btn {
+    padding: 10px 12px;
+  }
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 768px) {
+  .post-header { padding: 0.5rem 0.75rem; }
+  .post-body { padding: 0.6rem 0.75rem; }
+  .post-footer { padding: 0.5rem 0.75rem; }
+  .post-header img { width: 40px; height: 40px; }
+  .post-comments .comment-row img { width: 30px; height: 30px; }
+}
+
+/* ---------- Utility helpers used by JS toggles (no styling assumptions) ---------- */
+/* .collapsed and .expanded are toggled by JS — do not change names unless component changes */
+/* .post-content.collapsed { already handled above } */
+.post-content.expanded { max-height: none; }
+
+/* small polish: ensure content images don't overflow */
+.post-body img { max-width: 100%; height: auto; display: block; }

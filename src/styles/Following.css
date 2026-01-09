@@ -1,0 +1,77 @@
+/* FILE: src/styles/Following.css */
+/* ---------------------------------------------------------
+   Following Page – Clean, Modern, Production-Ready Styling
+   ---------------------------------------------------------
+   Applied to cards used in FollowingPage.jsx
+----------------------------------------------------------*/
+
+/* Root card */
+.following-card {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fff;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect */
+.following-card:hover {
+  background-color: #fafafa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Avatar */
+.following-card img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+  transition: transform 0.2s ease;
+}
+
+.following-card img:hover {
+  transform: scale(1.04);
+}
+
+/* Name & profession text */
+.following-card h6 {
+  margin: 0;
+  font-weight: 600;
+  color: #222;
+}
+
+.following-card .text-muted {
+  font-size: 0.875rem;
+}
+
+/* Follow/Unfollow button */
+.following-card .btn {
+  border-radius: 8px;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .following-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 18px;
+  }
+
+  .following-card img {
+    margin-bottom: 8px;
+  }
+
+  .following-card .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

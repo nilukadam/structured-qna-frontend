@@ -1,0 +1,65 @@
+/* ================================================
+   FILE: src/styles/Spaces.css
+   PURPOSE:
+   - Styles for SpacesPage.jsx cards, banners, layout
+   - Modern, lightweight, responsive styling
+   - Smooth hover effects + clean UI
+   ================================================= */
+
+/* -----------------------------
+   Space Card (wrapper)
+------------------------------ */
+.space-card {
+  border: none;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* Hover elevation effect */
+.space-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.10);
+}
+
+/* -----------------------------
+   Banner Image
+------------------------------ */
+.space-banner {
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+  background-color: #f5f5f5;
+}
+
+/* -----------------------------
+   Text Styling
+------------------------------ */
+.space-card h6 {
+  color: #212529;
+  font-weight: 600;
+}
+
+.space-card p {
+  line-height: 1.45;
+  color: #555;
+}
+
+/* -----------------------------
+   Join / Joined Button
+------------------------------ */
+.space-card .btn {
+  font-size: 0.85rem;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+/* -----------------------------
+   Responsive Adjustments
+------------------------------ */
+@media (max-width: 768px) {
+  .space-banner {
+    height: 100px;
+  }
+}

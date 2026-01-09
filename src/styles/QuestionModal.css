@@ -1,0 +1,271 @@
+/* FILE: src/styles/QuestionModal.css */
+/* Modern, theme-aware Question Modal (light + dark mode compatible) */
+
+/* =============================
+   Backdrop
+   ============================= */
+.qm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2200;
+
+  animation: qm-fade 0.25s ease;
+}
+
+@keyframes qm-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+/* =============================
+   Modal Card
+   ============================= */
+.qm-card {
+  width: 100%;
+  max-width: 740px;
+
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+
+  border-radius: 12px;
+  border: 1px solid var(--bs-border-color);
+
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+
+  /* scroll-safe */
+  max-height: 90vh;
+  overflow: hidden;
+
+  /* soft pop animation */
+  animation: qm-pop 0.22s ease-out;
+}
+
+@keyframes qm-pop {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+
+/* =============================
+   Close Button
+   ============================= */
+.qm-close {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+
+  border: none;
+  background: transparent;
+  color: var(--bs-body-color);
+
+  font-size: 22px;
+  cursor: pointer;
+  padding: 2px;
+  line-height: 1;
+  border-radius: 6px;
+}
+
+.qm-close:hover {
+  background: var(--bs-secondary-bg);
+}
+
+
+/* =============================
+   Tabs
+   ============================= */
+.qm-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.qm-tab {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--bs-border-color);
+
+  background: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.qm-tab:hover {
+  background: var(--bs-tertiary-bg);
+}
+
+.qm-tab.active {
+  background: var(--bs-primary-bg-subtle);
+  border-color: var(--bs-primary-border-subtle);
+  color: var(--bs-primary-text-emphasis);
+  font-weight: 600;
+}
+
+
+/* =============================
+   Modal Body (scrollable area)
+   ============================= */
+.qm-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  overflow-y: auto;
+  flex: 1 1 auto;
+
+  max-height: calc(100vh - 200px);
+  padding-right: 6px;
+}
+
+
+/* =============================
+   Inputs & Textareas
+   ============================= */
+.qm-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.qm-input,
+.qm-textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+
+  border: 1px solid var(--bs-border-color);
+  outline: none;
+  font-size: 14px;
+
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.qm-input:focus,
+.qm-textarea:focus {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
+}
+
+.qm-textarea {
+  resize: vertical;
+  min-height: 80px;
+  max-height: 260px;
+}
+
+
+/* =============================
+   Toolbar
+   ============================= */
+.qm-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.qm-fonts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qm-font-label {
+  font-size: 13px;
+  color: var(--bs-secondary-color);
+}
+
+.qm-image-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* =============================
+   Image Preview
+   ============================= */
+.qm-image-preview {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.qm-image-preview img {
+  max-width: 100%;
+  max-height: 280px;
+  border-radius: 8px;
+  border: 1px solid var(--bs-border-color);
+}
+
+
+/* =============================
+   Live Preview
+   ============================= */
+.qm-preview {
+  margin-top: 8px;
+  padding: 10px;
+
+  border-radius: 8px;
+  border: 1px solid var(--bs-border-color);
+
+  background: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+
+  font-size: 14px;
+}
+
+
+/* =============================
+   Error Box
+   ============================= */
+.qm-error {
+  background: #fff3f2;
+  border: 1px solid #ffd6d4;
+  color: #b00020;
+
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+
+  animation: qm-shake 0.25s ease;
+}
+
+@keyframes qm-shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+
+/* =============================
+   Sticky Footer (actions)
+   ============================= */
+.qm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+
+  background: var(--bs-body-bg);
+  padding-top: 10px;
+
+  position: sticky;
+  bottom: 0;
+}

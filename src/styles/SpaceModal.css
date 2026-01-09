@@ -1,0 +1,178 @@
+/* FILE: src/styles/SpaceModal.css
+   Production-ready SpaceModal styles
+   - Theme-aware: uses Bootstrap CSS variables
+   - Responsive, accessible, and polished animations
+   - Keeps original class names: no JS/JSX changes required
+*/
+
+/* ---------- Overlay ---------- */
+.sm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2200;
+  backdrop-filter: blur(4px);
+  animation: sm-fade 0.18s ease;
+}
+@keyframes sm-fade { from { opacity: 0 } to { opacity: 1 } }
+
+/* ---------- Modal box ---------- */
+.sm-modal {
+  width: 100%;
+  max-width: 520px;
+  margin: 16px;
+  border-radius: 12px;
+
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border: 1px solid var(--bs-border-color);
+
+  box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+  overflow: hidden;
+  transform-origin: center;
+  animation: sm-pop 0.20s ease-out;
+}
+@keyframes sm-pop { from { transform: translateY(12px) scale(.99); opacity: 0 } to { transform: translateY(0) scale(1); opacity: 1 } }
+
+/* ---------- Header ---------- */
+.sm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--bs-border-color);
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.00));
+}
+
+.sm-header h3 {
+  font-size: 18px;
+  margin: 0;
+  font-weight: 600;
+  color: var(--bs-body-color);
+}
+
+.sm-close {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--bs-body-color);
+  padding: 6px;
+  border-radius: 8px;
+}
+.sm-close:hover,
+.sm-close:focus { background: var(--bs-secondary-bg); outline: none; }
+
+/* ---------- Body (form) ---------- */
+.sm-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* label + input layout */
+.sm-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bs-body-color);
+}
+
+.sm-input,
+.sm-textarea {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-card-bg);
+  color: var(--bs-body-color);
+  font-size: 14px;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+
+.sm-input:focus,
+.sm-textarea:focus {
+  outline: none;
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 4px rgba(99,102,241,0.12);
+}
+
+.sm-textarea { resize: vertical; min-height: 90px; }
+
+/* ---------- Error ---------- */
+.sm-error {
+  color: var(--bs-danger, #d62839);
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ---------- Footer ---------- */
+.sm-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 18px 18px;
+  border-top: 1px solid var(--bs-border-color);
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.00));
+}
+
+/* Buttons */
+.sm-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .14s ease, transform .08s ease;
+  border: 1px solid transparent;
+}
+
+.sm-btn:active { transform: translateY(1px); }
+
+/* primary */
+.sm-btn-primary {
+  background: var(--bs-danger, #d62839);
+  color: #fff;
+  border-color: rgba(0,0,0,0.04);
+}
+.sm-btn-primary:hover { background: #a61c2d; }
+
+/* secondary */
+.sm-btn-secondary {
+  background: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+  border: 1px solid var(--bs-border-color);
+}
+.sm-btn-secondary:hover { background: var(--bs-tertiary-bg); }
+
+/* ---------- Accessibility & Touch ---------- */
+/* Larger hit area on touch devices */
+@media (hover: none) {
+  .sm-btn { padding: 12px 16px; }
+  .sm-close { padding: 10px; }
+}
+
+/* keyboard focus */
+.sm-modal :is(button, input, textarea):focus {
+  outline: 3px solid rgba(13,110,253,0.12);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* ---------- Scrollbars (polish) ---------- */
+.sm-modal::-webkit-scrollbar { width: 10px; height: 10px; }
+.sm-modal::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.06); border-radius: 8px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 560px) {
+  .sm-modal { margin: 12px; max-width: 94%; }
+  .sm-header { padding: 12px 14px; }
+  .sm-body { padding: 14px; gap: 12px; }
+  .sm-footer { padding: 12px 14px; }
+}

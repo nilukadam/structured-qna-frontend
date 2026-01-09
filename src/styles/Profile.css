@@ -1,0 +1,56 @@
+/* ----------------------------------------
+   FILE: src/styles/Profile.css
+   Profile Page — Production-Ready Styling
+   ---------------------------------------- */
+
+/* Main wrapper */
+.profile-page {
+  min-height: 70vh;
+  padding-bottom: 40px;
+}
+
+/* Header / Profile Card */
+.profile-header {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Avatar */
+.profile-avatar {
+  object-fit: cover;
+  border: 2px solid #eee;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.04);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+}
+
+/* Posts section spacing */
+.profile-posts {
+  margin-top: 1.2rem;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .profile-header {
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .profile-avatar {
+    margin: 0 auto;
+  }
+
+  .profile-page h4 {
+    font-size: 1.25rem;
+  }
+
+  .profile-page .btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

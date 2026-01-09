@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+/* Global theme-aware surfaces */
+html, body {
+  background-color: var(--bs-body-bg) !important;
+  color: var(--bs-body-color) !important;
+}
+
+/* If you had a light panel behind the app, switch it to variables */
+.app-main,
+.homepage-container {
+  background: var(--bs-body-bg) !important;
+}
+
+/* Optional: default card look that adapts to theme */
+.card {
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border: 1px solid var(--bs-border-color);
+}

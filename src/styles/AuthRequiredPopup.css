@@ -1,0 +1,68 @@
+/* FILE: src/styles/AuthRequiredPopup.css
+   ------------------------------------------------------
+   AuthRequiredPopup Styles
+   Lightweight modal for "Login Required" prompts
+   - Reuses consistent modal appearance
+   - Smooth animations + accessible colors
+   ------------------------------------------------------ */
+
+/* === Overlay (full screen dim) === */
+.auth-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2200; /* above most UI */
+  animation: authFadeIn 0.2s ease-out;
+}
+
+/* === Popup Card === */
+.auth-popup-card {
+  background: var(--bs-body-bg, #fff);
+  color: var(--bs-body-color, #333);
+  border-radius: 14px;
+  padding: 22px 30px;
+  width: 90%;
+  max-width: 320px;
+
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+  text-align: center;
+  animation: authSlideUp 0.25s ease-out;
+}
+
+/* Main text */
+.auth-popup-card p {
+  font-size: 15px;
+  margin-bottom: 14px;
+  color: var(--bs-body-color, #333);
+}
+
+/* Buttons inside modal */
+.auth-popup-actions button {
+  font-weight: 600;
+  min-width: 80px;
+  transition: all 0.2s ease;
+}
+
+/* Hover improvements */
+.auth-popup-actions .btn-outline-secondary:hover {
+  background: #f1f1f1;
+}
+
+.auth-popup-actions .btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* === Animations === */
+@keyframes authFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes authSlideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

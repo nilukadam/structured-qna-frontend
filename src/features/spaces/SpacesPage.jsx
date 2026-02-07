@@ -12,27 +12,34 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useContext } from "react";
 import { FeedContext } from "../../context/FeedContext";
+import { useAuth } from "../../hooks/useAuth";
 import { FaSearch, FaUserPlus, FaUserCheck } from "react-icons/fa";
 import "../../styles/Space.css";
 
 export default function SpacesPage() {
   const navigate = useNavigate();
+
+  const {isAuthenticated } = useAuth();
+
   const [params] = useSearchParams();
+
   const topic = (params.get("topic") || "").trim();
 
   // Defensive: try to read from FeedContext but avoid throwing if not present
   const feedCtx = useContext(FeedContext);
+
   const ctxSpaces = Array.isArray(feedCtx?.spaces) ? feedCtx.spaces : [];
-  const ctxToggleFollow = typeof feedCtx?.toggleFollowAuthor === "function" ? feedCtx.toggleFollowAuthor : null;
+
+  const toggleJoinSpace = 
+    typeof feedCtx?.toggleJoinSpace === "function" 
+    ? feedCtx.toggleJoinSpace 
+    : null;
+
   const ctxFollowing = Array.isArray(feedCtx?.following) ? feedCtx.following : [];
-
-
 
 
   // Local UI state
   const [q, setQ] = useState("");
-  // Local join state for optimistic UI when no context follow helper exists
-  const [localJoined, setLocalJoined] = useState(() => ({}));
 
   // If the page was opened with ?topic=Name, prefill search (helpful UX)
   useEffect(() => {
@@ -44,7 +51,7 @@ export default function SpacesPage() {
     const term = (q || "").trim().toLowerCase();
     let list = [...ctxSpaces];
 
-    // Basic search (name or description)
+    // Basic search (name or description) 
     if (term) {
       list = list.filter((s) => {
         const name = String(s?.name || "").toLowerCase();
@@ -52,6 +59,7 @@ export default function SpacesPage() {
         return name.includes(term) || desc.includes(term);
       });
     }
+
 
     // If a topic is provided via URL, show exact-name matches at top
     if (topic) {
@@ -74,29 +82,26 @@ export default function SpacesPage() {
   const handleToggleJoin = (space) => {
     if (!space || !space.id) return;
 
-    // If context provides a follow helper, prefer that so change is persisted in app state
-    if (ctxToggleFollow) {
-      try {
-        ctxToggleFollow({ id: space.id, name: space.name, avatar: space.avatar });
-        return;
-      } catch (err) {
-        // fall through to local state on error
-        console.warn("toggleFollowAuthor failed", err);
-      }
+    // Authentication checking
+    if (!isAuthenticated) {
+      window.dispatchEvent(new CustomEvent("qc:openLogin"));
+      return;
     }
-
-    // Fallback: local optimistic toggle
-    setLocalJoined((prev) => ({ ...prev, [space.id]: !prev[space.id] }));
-  };
+    if (toggleJoinSpace) {
+       toggleJoinSpace(space);
+     }
+    
+ // Fallback: local optimistic toggle
+    setLocalJoined((prev) => ({ 
+      ...prev, 
+      [space.id]: !prev[space.id],
+     }));
+    };
 
   // Helper to determine UI join state (context-driven if we can infer it, else local)
   const isJoined = (space) => {
-    if (!space || !space.id) return false;
-    // check context following list first (if present)
-   if (Array.isArray(ctxFollowing) && ctxFollowing.length) {
-     return !!ctxFollowing.find((f) => String(f.id) === String(space.id));
-    }
-    return !!localJoined[space.id];
+    if (!space || !space.id) return false; 
+      return !!space.__joined;
   };
 
 

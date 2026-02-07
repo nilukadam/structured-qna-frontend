@@ -92,15 +92,19 @@ export default function AnswersPage() {
             "No posts yet. Be the first to ask or post!"
           )}
         </div>
-      ) : (
-        results.map((p, idx) => (
-          <AnswerPostCard
-            key={p?.id || p?._id || `post-${idx}`}
-            post={p}
-          />
-        ))
+     ) : (
+       <div className="row justify-content-center">
+         <div className="col-12 col-md-10 col-lg-8">
+           {results.map((p, idx) => (
+              <AnswerPostCard
+                key={p?.id || p?._id || `post-${idx}`}
+               post={p}
+              />
+           ))}
+          </div>
+        </div>
       )}
     </div>
   );
 }
- 
+  

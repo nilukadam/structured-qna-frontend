@@ -319,7 +319,7 @@ export default function Navbar({
                       onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (setShowProfileDropdown(false), openProfile())}
                     >
                       My Profile
-                    </div>
+                   </div>
 
                     <div
                       role="menuitem"

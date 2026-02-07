@@ -40,7 +40,15 @@ const defaultAvatar =
  * - Handles votes, follow, comments (create/delete) using FeedContext actions
  */
 export default function AnswerPostCard({ post }) {
-  const { upvotePost, downvotePost, toggleFollowAuthor, addComment, deleteComment } = useFeed();
+  const { 
+    upvotePost, 
+    downvotePost, 
+    toggleFollowAuthor, 
+    addNotification,
+    addComment, 
+    deleteComment,
+    } = useFeed();
+
   const { isAuthenticated, user } = useAuth();
 
   // Local UI state
@@ -100,10 +108,16 @@ export default function AnswerPostCard({ post }) {
 
   const plainLen = safeContent.replace(/\n+/g, " ").length;
     useEffect(() => {
-      if (!expanded && contentRef.current) {
-        const el = contentRef.current;
+      if (!expanded && contentRef.current) return;
+
+      const el = contentRef.current;
+
+      const measure = () => {
         setIsOverflowing(el.scrollHeight > el.clientHeight)
       }
+
+      //Meaasure after layout settles
+      requestAnimationFrame(measure)
     }, [expanded, safeContent])
 
   const handleFollowToggle = () => {
@@ -115,10 +129,20 @@ export default function AnswerPostCard({ post }) {
       toast("Cannot follow this author");
       return;
     }
+
+    const wasFollowing = followed;
     try {
       toggleFollowAuthor(author);
-      // We don't rely on immediate prop mutation here; FeedContext will update posts.
-      toast.success(followed ? `Unfollowed ${authorName}` : `Following ${authorName}`);
+
+      addNotification({
+        type: "system",
+        text: wasFollowing
+          ? `You unfollowed ${authorName}.`
+          : `You started following ${authorName}`,
+          from: {name: "You", avatar: user?.avatar},
+      });
+      toast.success(
+        wasFollowing ? `Unfollowed ${authorName}` : `Following ${authorName}`);
     } catch (err) {
       console.error(err);
       toast.error("Failed to update follow");
@@ -214,8 +238,11 @@ export default function AnswerPostCard({ post }) {
             <div className="post-text-inner">
              <p
                ref={contentRef}
-               className={`post-content ${!expanded ? "collapsed" : "expanded"}`}
-               aria-live="polite"
+               className="post-content" 
+               style={{
+                maxHeight :expanded ? "none" : "4.8rem",
+                overflow: "hidden"
+               }}
               >
                 {safeContent} 
               </p>

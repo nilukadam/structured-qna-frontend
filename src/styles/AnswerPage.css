@@ -27,17 +27,6 @@
   color: var(--bs-muted, #6c757d); /* calmer than body */
 }
 
-/* Results list */
-.answers-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* Post card wrapper — remove lift & drama */
-.answers-list > .post-card {
-  margin-bottom: 0;
-}
 
 /* Hover effects REMOVED for reading calm */
 /* .answers-list > .post-card:hover {} */
@@ -83,11 +72,6 @@
   font-size: 0.85rem;
 }
 
-/* Accessibility — quieter focus */
-.answers-list .post-card:focus-within {
-  outline: 2px solid #d62839;
-  outline-offset: 2px;
-}
 
 /* Responsive (unchanged intent) */
 @media (max-width: 768px) {
@@ -95,4 +79,22 @@
     padding-left: 12px;
     padding-right: 12px;
   }
+}
+
+/* Let cards behave like Home feed */
+.answers-page .post-card {
+  margin-bottom: 1rem; /* same natural rhythm as feed */
+}
+
+/* Constrain answer cards like feed (center column) */
+.answers-page {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Ensure images stay inside card visually */
+.answers-page .post-body img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
 }

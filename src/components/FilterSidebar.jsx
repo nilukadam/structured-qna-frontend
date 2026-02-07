@@ -16,7 +16,7 @@ export default function FilterSidebar({ onCreateSpaceClick }) {
 
   // Defensive consumption of FeedContext: avoid throwing if used outside provider
   let spaces = [];
-  try {
+  try { 
     const ctx = useFeed();
     spaces = Array.isArray(ctx?.spaces) ? ctx.spaces : [];
   } catch {
@@ -29,17 +29,16 @@ export default function FilterSidebar({ onCreateSpaceClick }) {
   // - final tie-break: alphabetic name asc
   const topSpaces = [...spaces]
     .sort((a, b) => {
-      const fa = Number(a?.followers ?? a?.members ?? 0);
-      const fb = Number(b?.followers ?? b?.members ?? 0);
-      if (fb !== fa) return fb - fa; // more followers first
-
+      
       const ta = Date.parse(a?.createdAt) || 0;
       const tb = Date.parse(b?.createdAt) || 0;
       if (tb !== ta) return tb - ta; // newer first
 
-      const na = String(a?.name || "").toLowerCase();
-      const nb = String(b?.name || "").toLowerCase();
-      return na.localeCompare(nb);
+      const fa = Number(a?.followers ?? a?.members ?? 0);
+      const fb = Number(b?.followers ?? b?.members ?? 0);
+      if (fb !== fa) return fb - fa; // more followers first
+
+      return String(a?.name || "").localeCompare(String(b?.name || ""))
     })
     .slice(0, 6);
 

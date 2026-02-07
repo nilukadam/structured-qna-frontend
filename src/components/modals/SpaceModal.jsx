@@ -57,7 +57,7 @@ export default function SpaceModal({ isOpen, onClose, onCreate }) {
       toast.error("Please enter a space name");
       return;
     }
-
+ 
     try {
       onCreate?.({ name: name.trim(), description: description.trim() });
 

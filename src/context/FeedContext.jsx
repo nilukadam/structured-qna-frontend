@@ -25,7 +25,7 @@ export function FeedProvider({ children }) {
       return raw ? JSON.parse(raw) : fallback;
     } catch {
       return fallback;
-    }
+    } 
   };
 
   // State
@@ -192,6 +192,8 @@ export function FeedProvider({ children }) {
 
   // ------------------------ SPACES ------------------------
   const addSpace = (space = {}) => {
+    const current = getCurrentUser();
+
     const newSpace = {
       id: uuid(),
       name: space.name || "",
@@ -199,10 +201,58 @@ export function FeedProvider({ children }) {
       color: space.color || "#ddd",
       members: space.members || 1,
       createdAt: new Date().toISOString(),
+      ownerId: current?.id || null,
     };
+
     setSpaces((prev) => [newSpace, ...prev]);
+
+    // auto-join creator
+    if (current) {
+      setFollowing((prev) =>[
+        { id: newSpace.id, name: newSpace.name},
+        ...prev,
+      ])
+    }
+
     return newSpace;
   };
+
+  const toggleJoinSpace = (space) => {
+    if (!space?.id) return;
+  
+    const current = getCurrentUser();
+    if (!current) return;
+  
+    let didJoin = false;
+  
+    setSpaces((prev) => {
+      const exists = prev.find((s) => s.id === space.id);
+      if (!exists) return prev;
+
+      const isJoined = !!exists.__joined;
+      didJoin = !isJoined;
+  
+      return prev.map((s) =>
+        s.id === space.id
+          ? {
+              ...s,
+              members: Math.max(0, (s.members || 0) + (isJoined ? -1 : 1)),
+              __joined: !isJoined,
+            }
+          : s
+      );
+    });
+
+    // ✅ SIDE-EFFECT OUTSIDE setState (RUNS ONCE)
+    addNotification({
+      text: didJoin
+        ? `You joined the space "${space.name}"`
+        : `You left the space "${space.name}"`,
+      type: "space",
+      from: { name: current.name, avatar: current.avatar },
+    });
+  };
+
 
   // ------------------------ NOTIFICATIONS ------------------------
   const addNotification = ({ text, type = "info", from } = {}) => {
@@ -282,7 +332,8 @@ export function FeedProvider({ children }) {
 
   // ------------------------ FOLLOWING ------------------------
   const toggleFollowAuthor = (author) => {
-    if (!author?.id) return;
+    const current = getCurrentUser();
+    if (!author?.id || !current) return;
 
     setFollowing((prev) => {
       const exists = prev.find((u) => u.id === author.id);
@@ -322,6 +373,7 @@ export function FeedProvider({ children }) {
     upvotePost,
     downvotePost,
     toggleFollowAuthor,
+    toggleJoinSpace,
   };
 
   return <FeedContext.Provider value={value}>{children}</FeedContext.Provider>;

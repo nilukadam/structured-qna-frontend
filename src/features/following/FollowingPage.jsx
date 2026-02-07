@@ -10,21 +10,19 @@
  */
 
 import React, { useState, useEffect, useMemo } from "react";
+import { useAuth } from "../../hooks/useAuth";
 import { useFeed } from "../../hooks/useFeed";
 import { FaUserMinus, FaUserPlus, FaSearch } from "react-icons/fa";
 import "../../styles/Following.css";
 
 export default function FollowingPage() { 
-  const { following = [] } = useFeed();
+  const { user, isAuthenticated } = useAuth();
+  const { following = [], toggleFollowAuthor, addNotification } = useFeed();
   const [search, setSearch] = useState("");
-  const [followed, setFollowed] = useState({});
-
-  /** Set initial follow mapping on mount */
-  useEffect(() => { 
-    const map = {};
-    following.forEach((u) => (map[u.id] = true));
-    setFollowed(map);
-  }, [following]);
+      useEffect(() => {
+      setSearch("");
+      }, []);
+  const isFollowing = (id) => following.some((u) => u.id === id);
 
   /** Filter by search query */
   const filtered = useMemo(() => {
@@ -38,9 +36,28 @@ export default function FollowingPage() {
     );
   }, [following, search]);
 
-  const toggleFollow = (id) =>
-    setFollowed((prev) => ({ ...prev, [id]: !prev[id] }));
+  const handleFollowClick = (userToFollow) => {
+    if (!isAuthenticated) {
+      // existing auth flow only
+      alert("Please login to follow users");
+      return;
+    }
 
+    const alreadyFollowing = isFollowing(userToFollow.id);
+
+    // Triger follow/unfollow in feed
+    toggleFollowAuthor(userToFollow);
+
+    // Trigger Notification
+    addNotification({
+      type: "system",
+      text: alreadyFollowing
+      ? `You unfollowed ${userToFollow.name}.`
+      : `You started following ${userToFollow.name}`,
+      from: { name: "You", avatar: user?.avatar },
+    });
+  };
+  
   return (
     <div className="container mt-4 following-page">
       
@@ -57,14 +74,17 @@ export default function FollowingPage() {
               left: 10,
               transform: "translateY(-50%)",
               color: "#888",
-            }}
+            }} 
           />
           <input
             type="search"
             className="form-control ps-4"
             placeholder="Search people you follow"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSearch(value);
+            }}
             aria-label="Search following list"
           />
         </div>
@@ -105,26 +125,13 @@ export default function FollowingPage() {
                 </p>
               </div>
 
-              {/* Follow/Unfollow */}
-              <button
-                className={`btn btn-sm ${
-                  followed[u.id]
-                    ? "btn-outline-secondary"
-                    : "btn-outline-primary"
-                }`}
-                onClick={() => toggleFollow(u.id)}
-                aria-pressed={!!followed[u.id]}
-              >
-                {followed[u.id] ? (
-                  <>
-                    <FaUserMinus className="me-1" /> Unfollow
-                  </>
-                ) : (
-                  <>
-                    <FaUserPlus className="me-1" /> Follow
-                  </>
-                )}
-              </button>
+              {/*Unfollow */}
+               <button
+               className="btn btn-sm btn-outline-secondary"
+               onClick={() => handleFollowClick(u)}
+               >
+                <FaUserMinus className="me-1"/> Unfollow
+               </button>
 
             </div>
           </div>

@@ -17,7 +17,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 0.85rem 1rem;
+  padding: 0.85rem 1rem; 
   border-bottom: 1px solid var(--bs-border-color);
 }
 
@@ -66,17 +66,13 @@
 .post-body {
   padding: 0.9rem 1rem;
   position: relative;
-  overflow: visible;
+  overflow: hidden;
+  border-radius: 10px;
 }
  
 .post-text-inner {
   position: relative;
   z-index: 2; /* keeps text + read more above image */
-}
-
-.post-body img {
-  position: relative;
-  z-index: 1;
 }
 
 /* question */
@@ -103,13 +99,6 @@
   margin-bottom: 0;
 }
 
-/* collapsed state */
-.post-content.collapsed {
-  max-height: 4.8rem;
-  overflow: hidden;
-  position: relative;
-}
-
 /* read more */
 .post-readmore {
   display: inline-block;
@@ -131,10 +120,9 @@
   opacity: 0.7;
 }
 
-
-
 /* media */
 .post-body img {
+  display: block;
   width: 100%;
   max-height: 460px;
   object-fit: cover;
@@ -253,14 +241,11 @@
   }
 }
 
-/* utility */
-.post-content.expanded {
-  max-height: none;
+.post-readmore{
+  transition: color 0.15s ease,
 }
 
-.post-readmore,
 .post-footer .actions button {
-  transition: color 0.15s ease,
-  background-color 0.15s ease;
+  background-color: 0.15s ease;
 }
  

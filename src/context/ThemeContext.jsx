@@ -35,7 +35,7 @@ export function ThemeProvider({ children }) {
     document.body.setAttribute("data-bs-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"));
+  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

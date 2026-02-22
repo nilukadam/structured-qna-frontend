@@ -2,7 +2,7 @@
 import React, {useEffect, useMemo, useRef, useState,} from "react";
 import { useFeed } from "../../hooks/useFeed";
 import AnswerPostCard from "../../components/cards/AnswerPostCard";
-import FeedSkeleton from "../../components/skeletons/Feedskeleton";
+import FeedSkeleton from "../../components/skeletons/FeedSkeleton";
 
 /**
  * Feed
